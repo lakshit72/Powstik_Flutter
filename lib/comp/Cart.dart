@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:powstick/comp/Home.dart';
 
 final List<Map> products = [
   {
@@ -92,7 +93,10 @@ class CartPage extends State<Cart> {
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
+            },
             icon: const Icon(
               Icons.cancel_outlined,
               size: 35,

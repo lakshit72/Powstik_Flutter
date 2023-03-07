@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, file_names, prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: camel_case_types, file_names, prefer_const_constructors, non_constant_identifier_names, invalid_return_type_for_catch_error
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -140,6 +140,9 @@ class SignClass extends State<SignupScreen> {
             width: 250,
             child: TextFormField(
               controller: Pass,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
               decoration: InputDecoration(
                 hintText: "PassWord",
                 prefixIcon: Padding(
@@ -157,6 +160,9 @@ class SignClass extends State<SignupScreen> {
         SizedBox(
             width: 250,
             child: TextFormField(
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
               decoration: InputDecoration(
                 hintText: "Retype PassWord",
                 prefixIcon: Padding(
@@ -179,9 +185,10 @@ class SignClass extends State<SignupScreen> {
                   .then((value) => {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Home()))
-                      });
+                      })
+                  .catchError((error, stackTrace) => {});
             },
-            child: Text("LOGIN"))
+            child: Text("Sign UP"))
       ],
     ));
   }

@@ -117,6 +117,9 @@ class loginScreen extends StatelessWidget {
             width: 250,
             child: TextFormField(
               controller: Pass,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
               decoration: InputDecoration(
                 hintText: "PassWord",
                 prefixIcon: Padding(
@@ -139,7 +142,8 @@ class loginScreen extends StatelessWidget {
                   .then((value) => {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Home()))
-                      });
+                      })
+                  .onError((error, stackTrace) => {});
             },
             child: Text("LOGIN"))
       ],

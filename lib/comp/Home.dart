@@ -109,12 +109,15 @@ class _HomePage extends State<Home> {
                   padding: const EdgeInsets.fromLTRB(10, 44, 0, 0),
                   child: IconButton(
                       onPressed: () {
-                        FirebaseAuth.instance.signOut().then((value) => {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Login()))
-                            });
+                        FirebaseAuth.instance
+                            .signOut()
+                            .then((value) => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Login()))
+                                })
+                            .onError((error, stackTrace) => {});
                       },
                       icon: Icon(
                         Icons.logout,
