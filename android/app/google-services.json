@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "428835884129",
+    "project_id": "invertible-eye-285108",
+    "storage_bucket": "invertible-eye-285108.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428835884129:android:c1f3979cb58746004eae20",
+        "android_client_info": {
+          "package_name": "com.example.powstick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428835884129-edfbla672g6ho0pdkh78t3jarpggprca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.powstick",
+            "certificate_hash": "f8fd053f291a473c149abe5cd07cf932f38a524a"
+          }
+        },
+        {
+          "client_id": "428835884129-bdfv05fhgddo7tcmmgncuub2kdsoto4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy0TN4vktPvQZU--GpdsX7GYPGsWOK2dI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428835884129-bdfv05fhgddo7tcmmgncuub2kdsoto4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

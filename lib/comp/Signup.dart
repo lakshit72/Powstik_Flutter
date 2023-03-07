@@ -1,6 +1,9 @@
 // ignore_for_file: camel_case_types, file_names, prefer_const_constructors, non_constant_identifier_names
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:powstick/comp/Home.dart';
+import 'package:powstick/comp/Login.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -27,6 +30,9 @@ class SignupScreen extends StatefulWidget {
 }
 
 class SignClass extends State<SignupScreen> {
+  TextEditingController Name = TextEditingController();
+  TextEditingController Pass = TextEditingController();
+  TextEditingController Email = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -95,6 +101,7 @@ class SignClass extends State<SignupScreen> {
         SizedBox(
           width: 250,
           child: TextFormField(
+            controller: Name,
             decoration: InputDecoration(
               hintText: "Full Name",
               prefixIcon: Padding(
@@ -113,6 +120,7 @@ class SignClass extends State<SignupScreen> {
         SizedBox(
           width: 250,
           child: TextFormField(
+            controller: Email,
             decoration: InputDecoration(
               hintText: "UserName",
               prefixIcon: Padding(
@@ -131,6 +139,7 @@ class SignClass extends State<SignupScreen> {
         SizedBox(
             width: 250,
             child: TextFormField(
+              controller: Pass,
               decoration: InputDecoration(
                 hintText: "PassWord",
                 prefixIcon: Padding(
@@ -162,7 +171,17 @@ class SignClass extends State<SignupScreen> {
         SizedBox(
           height: 38,
         ),
-        ElevatedButton(onPressed: () {}, child: Text("LOGIN"))
+        ElevatedButton(
+            onPressed: () {
+              FirebaseAuth.instance
+                  .createUserWithEmailAndPassword(
+                      email: Email.text, password: Pass.text)
+                  .then((value) => {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home()))
+                      });
+            },
+            child: Text("LOGIN"))
       ],
     ));
   }
@@ -176,7 +195,10 @@ class SignClass extends State<SignupScreen> {
           style: TextStyle(color: Colors.black),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          },
           child: Text(
             "Log In",
             style: TextStyle(

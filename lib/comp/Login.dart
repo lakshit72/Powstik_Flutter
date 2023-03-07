@@ -1,6 +1,8 @@
-// ignore_for_file: camel_case_types, file_names, prefer_const_constructors, non_constant_identifier_names
-
+// ignore_for_file: camel_case_types, file_names, prefer_const_constructors, non_constant_identifier_names, must_be_immutable, avoid_web_libraries_in_flutter
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:powstick/comp/Home.dart';
+import 'package:powstick/comp/Signup.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,7 +14,7 @@ class Login extends StatefulWidget {
 class _LoginPage extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Color.fromARGB(255, 22, 190, 72),
       body: loginScreen(),
     );
@@ -20,7 +22,10 @@ class _LoginPage extends State<Login> {
 }
 
 class loginScreen extends StatelessWidget {
-  const loginScreen({super.key});
+  loginScreen({super.key});
+
+  TextEditingController Pass = TextEditingController();
+  TextEditingController Email = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +68,11 @@ class loginScreen extends StatelessWidget {
                 SizedBox(
                   height: 35,
                 ),
-                loginForm(),
+                loginForm(context),
                 SizedBox(
                   height: 60,
                 ),
-                NaviSg()
+                NaviSg(context)
               ],
             ),
           )
@@ -85,13 +90,14 @@ class loginScreen extends StatelessWidget {
     );
   }
 
-  Widget loginForm() {
+  Widget loginForm(BuildContext context) {
     return Form(
         child: Column(
       children: <Widget>[
         SizedBox(
           width: 250,
           child: TextFormField(
+            controller: Email,
             decoration: InputDecoration(
               hintText: "UserName",
               prefixIcon: Padding(
@@ -110,6 +116,7 @@ class loginScreen extends StatelessWidget {
         SizedBox(
             width: 250,
             child: TextFormField(
+              controller: Pass,
               decoration: InputDecoration(
                 hintText: "PassWord",
                 prefixIcon: Padding(
@@ -124,12 +131,22 @@ class loginScreen extends StatelessWidget {
         SizedBox(
           height: 38,
         ),
-        ElevatedButton(onPressed: () {}, child: Text("LOGIN"))
+        ElevatedButton(
+            onPressed: () {
+              FirebaseAuth.instance
+                  .signInWithEmailAndPassword(
+                      email: Email.text, password: Pass.text)
+                  .then((value) => {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home()))
+                      });
+            },
+            child: Text("LOGIN"))
       ],
     ));
   }
 
-  Widget NaviSg() {
+  Widget NaviSg(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -138,7 +155,10 @@ class loginScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Signup()));
+          },
           child: Text(
             "Sign Up",
             style: TextStyle(

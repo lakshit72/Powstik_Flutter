@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, file_names, non_constant_identifier_names
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:powstick/comp/Cart.dart';
+import 'package:powstick/comp/Login.dart';
 
 final List<Map> products = [
   {
@@ -105,7 +108,14 @@ class _HomePage extends State<Home> {
               Padding(
                   padding: const EdgeInsets.fromLTRB(10, 44, 0, 0),
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut().then((value) => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Login()))
+                            });
+                      },
                       icon: Icon(
                         Icons.logout,
                         size: 38,
@@ -123,7 +133,10 @@ class _HomePage extends State<Home> {
               Padding(
                   padding: EdgeInsets.fromLTRB(44, 44, 0, 0),
                   child: IconButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Cart()))
+                          },
                       icon: Icon(
                         Icons.shopping_cart,
                         size: 40,

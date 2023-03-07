@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_import
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import './comp/Home.dart';
 import './comp/Login.dart';
@@ -15,7 +16,9 @@ Map<String, Color> Color_Map = {
 };
 
 //main function
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(Powstik());
 }
 
@@ -43,7 +46,7 @@ class Powstik extends StatelessWidget {
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                   borderSide: BorderSide.none))),
-      home: Cart(),
+      home: Login(),
     );
   }
 }
