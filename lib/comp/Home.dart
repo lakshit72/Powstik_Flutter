@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, file_names, non_constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:powstick/comp/Cart.dart';
 import 'package:powstick/comp/Login.dart';
@@ -79,6 +80,8 @@ final List<Map> products = [
   },
 ];
 
+List<Map> currProd = products;
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -152,7 +155,13 @@ class _HomePage extends State<Home> {
               child: SizedBox(
                   width: 344,
                   child: TextField(
-                      onChanged: (target) {},
+                      onChanged: (target) {
+                        setState(() => currProd = products
+                            .where((Map product) => product["title"]
+                                .toLowerCase()
+                                .contains(target.toLowerCase()))
+                            .toList());
+                      },
                       obscureText: false,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
@@ -196,10 +205,13 @@ class HomeBod extends StatefulWidget {
 }
 
 class HomeBodbuild extends State<HomeBod> {
+  final database = FirebaseDatabase.instance.ref();
+  final User = FirebaseAuth.instance.currentUser?.email;
   int count = 1;
   @override
   Widget build(BuildContext context) {
-    List<Map> currProd = products;
+    final Usercon = User?.substring(0, User?.indexOf("."));
+    final refdata = database.child('/$Usercon');
     return SingleChildScrollView(
       child: Center(
           child: Wrap(
@@ -276,7 +288,17 @@ class HomeBodbuild extends State<HomeBod> {
                                   Padding(
                                       padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                                       child: FilledButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          refdata.update({
+                                            e["id"]: {
+                                              "id": e['id'],
+                                              "title": e['title'],
+                                              "price": e['price'],
+                                              "quantity": e['quantity'],
+                                              "image": e['image']
+                                            }
+                                          });
+                                        },
                                         style: ButtonStyle(
                                             backgroundColor:
                                                 MaterialStatePropertyAll(

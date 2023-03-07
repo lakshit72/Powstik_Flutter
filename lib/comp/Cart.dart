@@ -1,81 +1,13 @@
-// ignore_for_file: file_names, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, non_constant_identifier_names, unused_local_variable
 
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:powstick/comp/Home.dart';
 
-final List<Map> products = [
-  {
-    "id": "1",
-    "title": "Sudo Keema Samosa (250gm/Pack)",
-    "price": "330.00",
-    "quantity": "1",
-    "image": "assets/p1.jpg"
-  },
-  {
-    "id": "2",
-    "title": "Sudo Plant Based Burger Patty (300gm)",
-    "price": "330.00",
-    "quantity": "1",
-    "image": "assets/p2.jpg"
-  },
-  {
-    "id": "3",
-    "title":
-        "Mindful Healthy Trail Mix with Fig & Raisin Dry Fruit, Tropical Fruits & Nuts, 200g",
-    "price": "315.00",
-    "quantity": "1",
-    "image": "assets/p3.jpg"
-  },
-  {
-    "id": "4",
-    "title":
-        "Mindful Healthy Trail Mix with Papaya & Pineapple Dry Fruit, Tropical Fruits & Nuts, 200g",
-    "price": "315.00",
-    "quantity": "1",
-    "image": "assets/p4.jpg"
-  },
-  {
-    "id": "5",
-    "title": "Mindful Cashewm Oregano 300gm",
-    "price": "550.00",
-    "quantity": "1",
-    "image": "assets/p5.jpg"
-  },
-  {
-    "id": "6",
-    "title": "5kg Low GI Combo",
-    "price": "1099.00",
-    "image": "assets/p6.jpg"
-  },
-  {
-    "id": "7",
-    "title": "Sudo Chicken Popcorn",
-    "price": "330.00",
-    "quantity": "1",
-    "image": "assets/p7.jpg"
-  },
-  {
-    "id": "8",
-    "title": "Sudo mVegetarian Galouti Kebab (250gm)",
-    "price": "330.00",
-    "quantity": "1",
-    "image": "assets/p8.jpg"
-  },
-  {
-    "id": "9",
-    "title": "Sudo-Plant Based Chicken Miracle Momos (230gm)",
-    "price": "330.00",
-    "quantity": "1",
-    "image": "assets/p9.jpg"
-  },
-  {
-    "id": "10",
-    "title": "Sudo-Vegan Burger Patty and Popcorn (250gm/Pack)",
-    "price": "630.00",
-    "quantity": "1",
-    "image": "assets/p10.jpg"
-  },
-];
+List<Map> products = [];
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -136,8 +68,41 @@ class CartBod extends StatefulWidget {
 }
 
 class CartBodc extends State<CartBod> {
+  final database = FirebaseDatabase.instance.ref();
+  final User = FirebaseAuth.instance.currentUser?.email;
+  @override
+  void initState() {
+    super.initState();
+    activelist();
+  }
+
+  void activelist() {
+    products = [];
+    final Usercon = User?.substring(0, User?.indexOf("."));
+    print(Usercon);
+    database.child("/$Usercon").onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        var data = event.snapshot.value;
+        print(data);
+        if (data.runtimeType == List<Object?>) {
+          final parsedData = data as List;
+          final filteredData = parsedData.where((elem) => elem != null);
+          filteredData.toList().forEach((element) {
+            products.add(element);
+          });
+        } else {
+          data = data as Map;
+          for (var element in data.values) {
+            products.add(element);
+          }
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(products);
     List<Map> curr = products;
     return ListView(
         children: curr
