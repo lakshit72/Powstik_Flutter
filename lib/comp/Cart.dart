@@ -1,6 +1,4 @@
-// ignore_for_file: file_names, prefer_const_constructors, non_constant_identifier_names, unused_local_variable
-
-import 'dart:io';
+// ignore_for_file: file_names, prefer_const_constructors, non_constant_identifier_names, unused_local_variable, avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
